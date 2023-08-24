@@ -1,4 +1,4 @@
-package com.example.somethinggood.controller;
+package com.example.somethinggood.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

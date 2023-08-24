@@ -2,6 +2,7 @@ package com.example.somethinggood.controller;
 
 import com.example.somethinggood.domain.User;
 import com.example.somethinggood.service.UserService;
+import com.example.somethinggood.utils.ErrorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +48,7 @@ public class MainRegistration {
         }
 
         if (isConfirmEmpty|| bindingResult.hasErrors()){
-            Map<String,String> errors =ControllerUtils.getErrors(bindingResult);
+            Map<String,String> errors = ErrorUtil.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";
         }
