@@ -3,12 +3,15 @@ package com.example.somethinggood.securingweb;
 
 import com.example.somethinggood.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -22,6 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Value("${spring.websecurity.debug:false}")
+    boolean webSecurityDebug;
 
     public void configure(HttpSecurity http) throws Exception {
 
@@ -38,8 +43,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 )
                 .logout(LogoutConfigurer::permitAll)
+
                 .rememberMe();
 
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.debug(webSecurityDebug);
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
